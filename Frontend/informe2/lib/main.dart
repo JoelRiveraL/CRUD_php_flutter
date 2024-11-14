@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'registrar.dart';
 void main() {
   runApp(MyApp());
 }
@@ -48,7 +48,7 @@ class __MyHomePageState extends State<_MyHomePage> {
 
               ),
               SizedBox(
-                height: 40,
+                height: 20,
               ),
 
               TextField(
@@ -57,7 +57,7 @@ class __MyHomePageState extends State<_MyHomePage> {
                     hintText: "Usuario"
                 ),
               ),
-              SizedBox(height: 50,),
+              SizedBox(height: 20,),
               TextField(
                 controller: password,
                 obscureText: true,
@@ -66,7 +66,7 @@ class __MyHomePageState extends State<_MyHomePage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 70),
+                margin: EdgeInsets.only(top: 60),
                 width: 200,
                 decoration: BoxDecoration(
                     color: Colors.blue,
@@ -78,8 +78,18 @@ class __MyHomePageState extends State<_MyHomePage> {
                 ),
               ),
               SizedBox(height: 20,),
-              Text("¿No tiene cuenta? REGÍSTRESE", style: TextStyle(color: Colors.lightBlue, fontSize: 15)),
-
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Registrar()),
+                  );
+                },
+                child: Text(
+                  "¿No tiene cuenta? REGÍSTRESE",
+                  style: TextStyle(color: Colors.lightBlue, fontSize: 15),
+                ),
+              )
             ],
           ),
         ),
