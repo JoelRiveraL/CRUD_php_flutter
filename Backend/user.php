@@ -27,21 +27,32 @@ class User {
     }
 
     // Método de inicio de sesión
-    public function login($nameU, $passwordU) {
-        // Consulta SQL para obtener el usuario por nombre
-        $query = "SELECT * FROM user WHERE nameU = :nameU";
+    public function login($emailU, $passwordU) {
+        // Consulta para obtener los datos del usuario por nombre
+        $query = "SELECT * FROM users WHERE emailU = :emailU";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(":nameU", $nameU);
+        $stmt->bindParam(":nameU", $emailU);
         $stmt->execute();
-
-        // Verificar si se encuentra el usuario
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Si el usuario existe y la contraseña coincide, retornar los datos del usuario
+        // Verificar si el usuario existe y la contraseña coincide
         if ($user && password_verify($passwordU, $user['passwordU'])) {
-            return $user;
+            // Si la contraseña es correcta, generamos el token JWT
+            $payload = [
+                'iat' => time(),
+                'exp' => time() + (60 * 60), // Expira en 1 hora
+                'data' => [
+                    'idUser' => $user['idUser'],
+                    'emailU' => $user['emailU']
+                ]
+            ];
+            $jwt = JWT::encode($payload, $this->secretKey, 'HS256');
+
+            // Retorna el token
+            return $jwt;
         }
-        // Si no coincide, devolver falso
+
+        // Si no coincide, retornamos falso
         return false;
     }
 }
