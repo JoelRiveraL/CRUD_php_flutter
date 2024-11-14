@@ -7,11 +7,11 @@ $user = new User($db);
 
 // Ejemplo de registro de un nuevo usuario
 $nameU = "Juan";
-$surnameU = "Perez";
+$emailU = "Perez";
 $passwordU = "mi_contraseña_segura";
 
 // Registrar el usuario
-if ($user->register($nameU, $surnameU, $passwordU)) {
+if ($user->register($nameU, $emailU, $passwordU)) {
     echo "Usuario registrado con éxito.";
 } else {
     echo "Error al registrar el usuario.";
