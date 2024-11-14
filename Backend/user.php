@@ -1,9 +1,13 @@
 <?php
 
 require 'conexion.php'; // Incluir la conexión a la base de datos
+require 'vendor/autoload.php'; // Para JWT
+use \Firebase\JWT\JWT;
 
 class User {
     private $db;
+    private $secretKey = "BaPiRiYa_movilApp2509"; 
+
     public function __construct($db) {
         $this->db = $db;
     }
