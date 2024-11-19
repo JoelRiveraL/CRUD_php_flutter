@@ -31,7 +31,7 @@ class __MyHomePageState extends State<_MyHomePage> {
 
 // URL de tu backend
   final String apiUrl =
-      "http://192.168.100.231/CRUD_php_flutter/Backend/login.php";
+      "http://localhost/CRUD_php_flutter/Backend/login.php";
 // Función para realizar la petición de login
   Future<void> login() async {
     try {
