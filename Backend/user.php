@@ -31,9 +31,9 @@ class User {
     // Método de inicio de sesión
     public function login($emailU, $passwordU) {
         // Consulta para obtener los datos del usuario por nombre
-        $query = "SELECT * FROM users WHERE emailU = :emailU";
+        $query = "SELECT * FROM user WHERE emailU = :emailU";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(":nameU", $emailU);
+        $stmt->bindParam(":emailU", $emailU);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

@@ -11,7 +11,7 @@ try {
 
     // Configurar PDO para lanzar excepciones en caso de error
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Conexión exitosa"; // Mensaje para confirmar conexión en pruebas (luego puede eliminarse)
+    //echo "Conexión exitosa"; // Mensaje para confirmar conexión en pruebas (luego puede eliminarse)
 } catch (PDOException $e) {
     // Captura el error en caso de falla de conexión
     echo "Error de conexión: " . $e->getMessage();

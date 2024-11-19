@@ -1,6 +1,6 @@
 <?php
 require 'conexion.php'; // Incluir la conexión a la base de datos
-require 'User.php';     // Incluir la clase User
+require 'user.php';     // Incluir la clase User
 
 // Crear una instancia de la clase User, pasándole la conexión a la base de datos
 $user = new User($db);
