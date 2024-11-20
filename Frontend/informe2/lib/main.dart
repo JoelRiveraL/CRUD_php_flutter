@@ -3,6 +3,7 @@ import 'package:informe2/crud.dart';
 import 'registrar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert'; // Para convertir los datos JSON
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 void main() {
   runApp(MyApp());
@@ -68,12 +69,15 @@ class __MyHomePageState extends State<_MyHomePage> {
         if (responseData['status'] == 'success') {
           // Login exitoso
           String token = responseData['token'];
+          // Decodifica el token JWT
+          Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+
           print('Token JWT: $token');
 
           // Redirige a otra pantalla
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Crud()),
+            MaterialPageRoute(builder: (context) => Crud(decodedToken)),
           );
         } else {
           // Muestra el mensaje de error desde el servidor

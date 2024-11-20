@@ -4,16 +4,19 @@ require 'conexion.php'; // Incluir la conexión a la base de datos
 require 'vendor/autoload.php'; // Para JWT
 use \Firebase\JWT\JWT;
 
-class User {
+class User
+{
     private $db;
-    private $secretKey = "BaPiRiYa_movilApp2509"; 
+    private $secretKey = "BaPiRiYa_movilApp2509";
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
     }
 
     // Método de registro de usuario
-    public function register($nameU, $emailU, $passwordU) {
+    public function register($nameU, $emailU, $passwordU)
+    {
         // Cifrar la contraseña usando password_hash en lugar de passwordU_hash
         $hashedPasswordU = password_hash($passwordU, PASSWORD_BCRYPT);
 
@@ -29,7 +32,8 @@ class User {
     }
 
     // Método de inicio de sesión
-    public function login($emailU, $passwordU) {
+    public function login($emailU, $passwordU)
+    {
         // Consulta para obtener los datos del usuario por nombre
         $query = "SELECT * FROM user WHERE emailU = :emailU";
         $stmt = $this->db->prepare($query);
@@ -42,10 +46,11 @@ class User {
             // Si la contraseña es correcta, generamos el token JWT
             $payload = [
                 'iat' => time(),
-                'exp' => time() + (60 * 60), // Expira en 1 hora
+                'exp' => time() + (60 * 5), // Expira en 5 min
                 'data' => [
                     'idUser' => $user['idUser'],
-                    'emailU' => $user['emailU']
+                    'emailU' => $user['emailU'],
+                    'nameU' => $user['nameU']
                 ]
             ];
             $jwt = JWT::encode($payload, $this->secretKey, 'HS256');
@@ -57,4 +62,34 @@ class User {
         // Si no coincide, retornamos falso
         return false;
     }
+
+    public function updateUser($id, $name, $email)
+    {
+        try {
+            $sql = "UPDATE user SET nameU = :name, emailU = :email WHERE idUser = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+
+            return $stmt->execute(); // Retorna true si se ejecuta correctamente
+        } catch (Exception $e) {
+            error_log("Error al actualizar usuario: " . $e->getMessage());
+            return false;
+        }
+    }
+    public function deleteUser($id)
+    {
+        try {
+            $sql = "DELETE FROM user WHERE idUser = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            return $stmt->execute(); // Retorna true si se ejecuta correctamente
+        } catch (Exception $e) {
+            error_log('' . $e->getMessage());
+            return false;
+
+        }
+    }
+
 }
